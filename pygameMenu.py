@@ -5,7 +5,7 @@ from pygameShowWords import display_study_words
 from pygameGame import comienzo
 
 
-
+#NEW INPUT "AUDIOSPAN" DENIS
 
 def mainScreen(d,randomSample,window_surface,engList,spanList, mainScreenManager, gameTitle, bg):
 
@@ -20,6 +20,7 @@ def mainScreen(d,randomSample,window_surface,engList,spanList, mainScreenManager
                                                 #Place it in main manager
                                                 manager=mainScreenManager)
 
+    
     exit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((330, 475), (150, 50)),
                                                 text='Exit',
                                                 #Place it in main manager
@@ -56,7 +57,7 @@ def mainScreen(d,randomSample,window_surface,engList,spanList, mainScreenManager
                         comienzo(window_surface, randomSample, engList, spanList)
                     # If study button, study
                     if event.ui_element == show_words_button:
-                        display_study_words(d,randomSample,window_surface,engList,spanList)
+                        display_study_words(d,randomSample,window_surface,engList,spanList) 
                     # If exit, exit
                     if event.ui_element == exit_button:
                         is_running = False
@@ -134,18 +135,19 @@ def main():
 
     # Select 12 indeces for english and spanish words
     randomSample = random.sample(list(range(len(d['english']))), 12)
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     # English list, Spanish list
     engList  = []
     spanList = []
+   
 
 
     #Generate english/spanish lists, with corresponding indeces
     for x in randomSample:
         engList.append( d['english'][x])
         spanList.append(d['spanish'][x])
-
-    #Call the main screen
+                                                                                   
+    #Call the main screen                                        
     mainScreen(d,randomSample,window_surface,engList,spanList, mainScreenManager, gameTitle, bg)
 
 

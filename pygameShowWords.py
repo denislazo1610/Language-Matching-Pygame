@@ -16,6 +16,25 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
     # Clock needed to update manager (don't know why.)
     clock = pygame.time.Clock()
 
+    #Creating new Buttons
+    class BotonAudio:
+        def __init__(self, word, x, y):
+            self.word = word
+            self.x = x
+            self.y = y
+
+        def draw(self):
+            boton = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((self.x, self.y), (100, 40)), # X Y
+                                            text= self.word,
+                                            #Study manager
+                                            manager=studyManager)
+
+
+    #SpanAudio  = [BotonAudio("no", 100, 100) for i in span]
+
+
+    #spanObjs = [word(i, screen) for i in span]
+
     #Back to the main screen
     back_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 545), (150, 50)),
                                             text='Back',
@@ -27,6 +46,7 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
                                             text='Start',
                                             #Study manager
                                             manager=studyManager)
+
 
     #Initialize english/spanish lists
 
@@ -79,6 +99,7 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
 
         #First word starts at height 50
         wordHeight = 50
+        Audios = []
         for x in range(len(randomSample)):
             #English word
             screen.blit(studyFont.render(eng[x], False, (0, 0, 0)),(95, wordHeight))
@@ -92,6 +113,9 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
 
             #Spanish word
             screen.blit(studyFont.render(span[x], False, (0, 0, 0)),(515, wordHeight))
+            Audios.append(BotonAudio(span[x], 400, wordHeight))
+            Audios[x].draw()
+
 
             #Update wordHeight
             wordHeight += 40
