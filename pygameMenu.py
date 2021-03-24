@@ -116,7 +116,7 @@ def main():
     first_sound = pygame.mixer.Sound("crash.mp3")
 
     backgroundMusic = pygame.mixer.music.load("Audio/background.mp3")
-    pygame.mixer.music.set_volume(0.06)
+    pygame.mixer.music.set_volume(0.02)
     pygame.mixer.music.play(-1)
 
 

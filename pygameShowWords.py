@@ -24,18 +24,17 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
             self.y = y
 
         def draw(self):
-            boton = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((self.x, self.y), (100, 40)), # X Y
+            return pygame_gui.elements.UIButton(relative_rect=pygame.Rect((self.x, self.y), (100, 40)), # X Y
                                             text= self.word,
                                             #Study manager
                                             manager=studyManager)
+
         def sonido(self):
-            sonido = pygame.mixer.music.load("Audio/" + self.word + ".mp3")
+            return pygame.mixer.Sound("Audio/" + self.word + ".mp3")
+            
 
 
-    #SpanAudio  = [BotonAudio("no", 100, 100) for i in span]
 
-
-    #spanObjs = [word(i, screen) for i in span]
 
     #Back to the main screen
     back_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 545), (150, 50)),
@@ -58,47 +57,6 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
 
         #Make the screen white
         screen.fill((255,255,255))
-
-        #Needed (but don't know why)
-        for event in pygame.event.get():
-            #'X' top right closes game
-            if event.type == pygame.QUIT:
-                #Exit the program
-                exit(0)
- 
-            #Check if something we created is processed
-            if event.type == pygame.USEREVENT:
-
-                #If button is pressed
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-
-                    #Back button
-                    if event.ui_element == back_button:
-                        #Exit out of this function, returns to where it was called, which is in mainScreen.
-                        return
-
-                    #Start button
-                    if event.ui_element == start_from_study_button:
-                        #Start the game
-                        comienzo(screen, randomSample, eng, span)
-
-            #Update studyManager
-            studyManager.process_events(event)
-
-        #Display English header
-        screen.blit(headerFont.render('English', False, (0, 0, 0)),(95, -10))
-
-        #Display separating pipes
-        screen.blit(studyFont.render('|', False, (0, 0, 0)),(390, 0))
-        #Overlap to look clean
-        screen.blit(studyFont.render('|', False, (0, 0, 0)),(390, 20))
-
-        #Display Spanish header
-        screen.blit(headerFont.render('Spanish', False, (0, 0, 0)),(515, -10))
-
-        #Display separating rows
-        screen.blit(studyFont.render('________________________________', False, (0, 0, 0)),(75, 8))
-
         #First word starts at height 50
         wordHeight = 50
         Audios = []
@@ -121,6 +79,60 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
 
             #Update wordHeight
             wordHeight += 40
+
+        #Needed (but don't know why)
+        for event in pygame.event.get():
+            #'X' top right closes game
+            if event.type == pygame.QUIT:
+                #Exit the program
+                exit(0)
+ 
+            #Check if something we created is processed
+            if event.type == pygame.USEREVENT:
+                
+                for x in range(len(Audios)): #DENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+                    #print(Audios[x].word)
+                    palabra = Audios[x].draw()
+                #If button is pressed
+                    if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+
+                    #Back button
+                        if event.ui_element == back_button:
+                            prueba = Audios[x].sonido() #DENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+                            prueba.set_volume(0.10) #DENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+                            prueba.play(2)#DENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+                        #Exit out of this function, returns to where it was called, which is in mainScreen.
+                            return
+
+                    #Start button
+                        if event.ui_element == start_from_study_button:
+                        #Start the game
+                            comienzo(screen, randomSample, eng, span)
+
+                        if event.ui_element == palabra:
+                            print("It is pressing")
+
+                    
+                   
+            
+
+            #Update studyManager
+            studyManager.process_events(event)
+
+        #Display English header
+        screen.blit(headerFont.render('English', False, (0, 0, 0)),(95, -10))
+
+        #Display separating pipes
+        screen.blit(studyFont.render('|', False, (0, 0, 0)),(390, 0))
+        #Overlap to look clean
+        screen.blit(studyFont.render('|', False, (0, 0, 0)),(390, 20))
+
+        #Display Spanish header
+        screen.blit(headerFont.render('Spanish', False, (0, 0, 0)),(515, -10))
+
+        #Display separating rows
+        screen.blit(studyFont.render('________________________________', False, (0, 0, 0)),(75, 8))
+
 
         #Update manager (for the buttons)
         studyManager.update(time_delta)
