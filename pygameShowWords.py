@@ -28,6 +28,8 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
                                             text= self.word,
                                             #Study manager
                                             manager=studyManager)
+        def sonido(self):
+            sonido = pygame.mixer.music.load("Audio/" + self.word + ".mp3")
 
 
     #SpanAudio  = [BotonAudio("no", 100, 100) for i in span]
