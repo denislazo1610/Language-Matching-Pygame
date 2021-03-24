@@ -115,7 +115,7 @@ def main():
     mainScreenManager = pygame_gui.UIManager((width, height))
     first_sound = pygame.mixer.Sound("crash.mp3")
 
-    backgroundMusic = pygame.mixer.music.load("background.mp3")
+    backgroundMusic = pygame.mixer.music.load("Audio/background.mp3")
     pygame.mixer.music.set_volume(0.06)
     pygame.mixer.music.play(-1)
 
@@ -128,10 +128,10 @@ def main():
                         'state','yes','of course','maybe',"I don't know",'how','I','you',
                         'place','the','she'],
     'spanish':['la camiseta','los pantalones','la falda','los calcetines','el abrigo',
-                    'los zapatos','las botas','amor','feliz','consado','listo','cajón','rueda','lata',
+                    'los zapatos','las botas','amor','feliz','cansado','listo','cajón','rueda','lata',
                     'billetera','pantalla','teclado','cama','cinturón','guante','año','día','vez',
                     'tiempo','vida','parte','gobierno','país','mundo','estado','si','claro que si','talvez',
-                    'nose','cómo','yo','tu','lugar','el/la','ella']}
+                    'nose','cómo','yo','tu','lugar','el la','ella']}
 
     # Select 12 indeces for english and spanish words
     randomSample = random.sample(list(range(len(d['english']))), 12)
