@@ -2,6 +2,7 @@ import pygame
 import pygame_gui
 from pygameGame import comienzo
 
+
 def display_study_words(engSpanDict,randomSample, screen, eng, span):
 
     # Header font is bigger
@@ -17,20 +18,14 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
     clock = pygame.time.Clock()
 
     #Creating new Buttons
-    class BotonAudio:
-        def __init__(self, word, x, y):
-            self.word = word
-            self.x = x
-            self.y = y
-
-        def draw(self):
-            return pygame_gui.elements.UIButton(relative_rect=pygame.Rect((self.x, self.y), (100, 40)), # X Y
-                                            text= self.word,
+    buttonHeight=50
+    audios=[]
+    for i in range(len(randomSample)):
+        audios.append(pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, buttonHeight), (100, 40)), # X Y
+                                            text= span[i],
                                             #Study manager
-                                            manager=studyManager)
-
-        def sonido(self):
-            return pygame.mixer.Sound("Audio/" + self.word + ".mp3")
+                                            manager=studyManager))
+        buttonHeight += 40
             
 
 
@@ -49,8 +44,6 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
                                             manager=studyManager)
 
 
-    #Initialize english/spanish lists
-
 
     while True:
         time_delta = clock.tick(60)/1000.0
@@ -59,7 +52,6 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
         screen.fill((255,255,255))
         #First word starts at height 50
         wordHeight = 50
-        Audios = []
         for x in range(len(randomSample)):
             #English word
             screen.blit(studyFont.render(eng[x], False, (0, 0, 0)),(95, wordHeight))
@@ -73,8 +65,6 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
 
             #Spanish word
             screen.blit(studyFont.render(span[x], False, (0, 0, 0)),(515, wordHeight))
-            Audios.append(BotonAudio(span[x], 400, wordHeight))
-            Audios[x].draw()
 
 
             #Update wordHeight
@@ -90,35 +80,30 @@ def display_study_words(engSpanDict,randomSample, screen, eng, span):
             #Check if something we created is processed
             if event.type == pygame.USEREVENT:
                 
-                for x in range(len(Audios)): #DENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
                     #print(Audios[x].word)
-                    palabra = Audios[x].draw()
+                    # palabra = Audios[x].draw()
                 #If button is pressed
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
 
                     #Back button
                         if event.ui_element == back_button:
-                            prueba = Audios[x].sonido() #DENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-                            prueba.set_volume(0.10) #DENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-                            prueba.play(2)#DENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-                        #Exit out of this function, returns to where it was called, which is in mainScreen.
+                            #Exit out of this function, returns to where it was called, which is in mainScreen.
                             return
+
+                        for x in range(len(audios)): #DENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+                            if event.ui_element == audios[x]:
+                                prueba = pygame.mixer.Sound("Audio/" + span[x] + ".mp3")
+                                prueba.set_volume(0.10) 
+                                prueba.play(0)
 
                     #Start button
                         if event.ui_element == start_from_study_button:
                         #Start the game
                             comienzo(screen, randomSample, eng, span)
-
-                        if event.ui_element == palabra:
-                            print("It is pressing")
-
                     
-                   
-            
-
             #Update studyManager
             studyManager.process_events(event)
-
+            
         #Display English header
         screen.blit(headerFont.render('English', False, (0, 0, 0)),(95, -10))
 
